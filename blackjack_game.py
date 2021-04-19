@@ -61,11 +61,17 @@ def _score_hand(hand):
 
 def _deal_dealer():
     global result_text
+    status = result_text.get()
     dealer_score = _score_hand(dealer_hand)
-    while 0 < dealer_score < 17:
+    if status == "Dealer Wins!":
         dealer_hand.append(_deal_card(dealer_card_frame))
         dealer_score = _score_hand(dealer_hand)
         dealer_score_label.set(dealer_score)
+    else:
+        while 0 < dealer_score < 17:
+            dealer_hand.append(_deal_card(dealer_card_frame))
+            dealer_score = _score_hand(dealer_hand)
+            dealer_score_label.set(dealer_score)
 
     player_score = _score_hand(player_hand)
     if player_score > 21:
@@ -85,6 +91,7 @@ def _deal_player():
 
     if player_score > 21:
         result_text.set("Dealer Wins!")
+        _deal_dealer()
     # if player_score == 21:
     #     result_text.set("Blackjack! Player wins!")
     # global player_score
